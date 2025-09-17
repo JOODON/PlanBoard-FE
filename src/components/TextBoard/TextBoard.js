@@ -392,10 +392,13 @@ function TextBoard({project}) {
                                                   opacity="0.6"/>
                                             <rect x="13" y="6" width="3" height="2" rx="0.5" fill="#0066ff"
                                                   opacity="0.8"/>
-                                            <rect x="4" y="10" width="5" height="1" rx="0.5" fill="#0066ff" opacity="0.7"/>
-                                            <rect x="10.5" y="10" width="4" height="1" rx="0.5" fill="#0066ff" opacity="0.5"/>
+                                            <rect x="4" y="10" width="5" height="1" rx="0.5" fill="#0066ff"
+                                                  opacity="0.7"/>
+                                            <rect x="10.5" y="10" width="4" height="1" rx="0.5" fill="#0066ff"
+                                                  opacity="0.5"/>
                                             <circle cx="15" cy="8" r="1.5" fill="#28a745"/>
-                                            <path d="M14.3 8 L14.8 8.5 L15.7 7.6" stroke="#ffffff" strokeWidth="0.6" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <path d="M14.3 8 L14.8 8.5 L15.7 7.6" stroke="#ffffff" strokeWidth="0.6"
+                                                  fill="none" strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>
                                     </div>
                                     <div className="note-menu-button">
@@ -420,10 +423,7 @@ function TextBoard({project}) {
                                 </div>
 
                                 {/* 제목 영역 */}
-                                <div className="note-title">
-                                    Preview
-                                </div>
-
+                                <div className="note-title"></div>
                                 {/* 미리보기 내용 */}
                                 <div
                                     className="note-preview"
@@ -449,12 +449,12 @@ function TextBoard({project}) {
 
                                 {/* 기존 버튼들 (나중에 tags로 교체 예정) */}
                                 <div className="note-buttons">
-                                        <button
-                                            className="edit-btn"
-                                            onClick={() => openModalForEdit(note)}
-                                        >
-                                            <FaEdit/> 수정
-                                        </button>
+                                    <button
+                                        className="edit-btn"
+                                        onClick={() => openModalForEdit(note)}
+                                    >
+                                        <FaEdit/> 수정
+                                    </button>
                                     <button
                                         className="delete-btn"
                                         onClick={() => deleteNoteHandler(note.id)}
