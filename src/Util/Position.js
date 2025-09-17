@@ -8,7 +8,6 @@ export function calculateSelectBoxPosition(coords, menuHeight = 200, offset = 5)
     } else {
         top = coords.bottom + offset;
     }
-
     return {
         top: Math.max(top, offset),
         left: coords.left,
