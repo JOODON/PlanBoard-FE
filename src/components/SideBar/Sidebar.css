@@ -1,0 +1,333 @@
+/* Sidebar.css */
+
+.sidebar {
+    width: 280px;
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 사용자 프로필 섹션 */
+.user-profile {
+    padding: var(--spacing-2xl);
+    border-bottom: 1px solid var(--gray-200);
+    background: var(--primary);
+    color: var(--white);
+}
+
+.user-profile-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    cursor: pointer;
+    padding: var(--spacing-md) 0;
+    border-radius: var(--border-radius-md);
+    transition: all var(--transition-normal);
+}
+
+.user-profile-content:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-full);
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+    margin-bottom: 2px;
+}
+
+.user-project-count {
+    font-size: var(--font-size-xs);
+    opacity: 0.9;
+}
+
+.user-settings-icon {
+    opacity: 0.8;
+    transition: opacity var(--transition-normal);
+}
+
+.user-profile-content:hover .user-settings-icon {
+    opacity: 1;
+}
+
+/* 사용자 정보 확장 */
+.user-details {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-md);
+    backdrop-filter: blur(10px);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.user-detail-item {
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.user-detail-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 프로젝트 섹션 */
+.projects-section {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.projects-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    cursor: pointer;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-700);
+    transition: background var(--transition-normal);
+}
+
+.projects-header:hover {
+    background: var(--gray-100);
+}
+
+.projects-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-sm) 0;
+}
+
+.project-item {
+    margin: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    transition: all var(--transition-normal);
+}
+
+.project-item:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.project-item-content {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    cursor: pointer;
+}
+
+.project-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--gray-700);
+}
+
+.project-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--border-radius-full);
+    background: var(--primary);
+}
+
+.project-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10px;
+}
+
+.project-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.project-item:hover .project-actions {
+    opacity: 1;
+}
+
+.project-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    color: var(--gray-500);
+    transition: all var(--transition-normal);
+}
+
+.project-action-btn:hover {
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+.project-action-btn.delete:hover {
+    background: var(--error-light);
+    color: var(--error);
+}
+
+/* 프로젝트 편집 모드 */
+.project-edit {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    background: var(--gray-50);
+}
+
+.project-edit-input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--primary);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-sm);
+    outline: none;
+}
+
+.project-edit-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+}
+
+.project-edit-btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-normal);
+}
+
+.project-edit-confirm {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.project-edit-confirm:hover {
+    background: var(--primary-light);
+}
+
+.project-edit-cancel {
+    background: var(--gray-300);
+    color: var(--gray-700);
+}
+
+.project-edit-cancel:hover {
+    background: var(--gray-400);
+}
+
+/* 빈 상태 */
+.projects-empty {
+    padding: var(--spacing-4xl) var(--spacing-xl);
+    text-align: center;
+    color: var(--gray-500);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.projects-empty-icon {
+    opacity: 0.3;
+    margin-bottom: var(--spacing-md);
+    color: var(--gray-400);
+}
+
+.projects-empty-title {
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-xs);
+}
+
+.projects-empty-subtitle {
+    font-size: var(--font-size-xs);
+    color: var(--gray-400);
+}
+
+/* 하단 푸터 */
+.sidebar-footer {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-top: 1px solid var(--gray-200);
+    background: var(--gray-50);
+    font-size: var(--font-size-xs);
+    color: var(--gray-500);
+    text-align: center;
+}
+
+.footer-title {
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-xs);
+    color: var(--gray-600);
+}
+
+.footer-version {
+    color: var(--gray-400);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        transform: translateX(-100%);
+        transition: transform var(--transition-normal);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .user-profile {
+        padding: var(--spacing-xl);
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-name {
+        font-size: var(--font-size-sm);
+    }
+
+    .projects-list {
+        max-height: 60vh;
+    }
+}

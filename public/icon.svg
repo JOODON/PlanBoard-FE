@@ -1,0 +1,17 @@
+  <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                {/* 메인 보드 */}
+                <rect x="2" y="4" width="16" height="12" rx="2" fill="#ffffff" opacity="0.9"/>
+                
+                {/* 보드 위의 카드들 */}
+                <rect x="4" y="6" width="3" height="2" rx="0.5" fill="#0066ff" opacity="0.8"/>
+                <rect x="8.5" y="6" width="3" height="2" rx="0.5" fill="#0066ff" opacity="0.6"/>
+                <rect x="13" y="6" width="3" height="2" rx="0.5" fill="#0066ff" opacity="0.8"/>
+                
+                {/* 하단 작은 카드들 */}
+                <rect x="4" y="10" width="5" height="1" rx="0.5" fill="#0066ff" opacity="0.7"/>
+                <rect x="10.5" y="10" width="4" height="1" rx="0.5" fill="#0066ff" opacity="0.5"/>
+                
+                {/* 체크마크 */}
+                <circle cx="15" cy="8" r="1.5" fill="#28a745"/>
+                <path d="M14.3 8 L14.8 8.5 L15.7 7.6" stroke="#ffffff" stroke-width="0.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>

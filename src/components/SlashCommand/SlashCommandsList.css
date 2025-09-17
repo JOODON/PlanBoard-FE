@@ -1,0 +1,188 @@
+/* components/SlashCommandsList.css */
+
+/* 슬래시 명령어 팝업 컨테이너 */
+.slash-commands-popup {
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e1e5e9;
+    overflow: hidden;
+    min-width: 280px;
+    max-width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* 명령어 리스트 컨테이너 */
+.slash-commands-list {
+    padding: 8px 0;
+    background: white;
+}
+
+/* 개별 명령어 아이템 */
+.slash-command-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.15s ease;
+    gap: 12px;
+}
+
+.slash-command-item:hover,
+.slash-command-item.selected {
+    background-color: #f8f9fa;
+}
+
+.slash-command-item.selected {
+    background-color: #e3f2fd;
+}
+
+/* 명령어 아이콘 */
+.slash-command-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #666;
+}
+
+.slash-command-item.selected .slash-command-icon {
+    background-color: #2196f3;
+    color: white;
+}
+
+/* 명령어 내용 */
+.slash-command-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.slash-command-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: #212529;
+    margin-bottom: 2px;
+}
+
+.slash-command-description {
+    font-size: 12px;
+    color: #6c757d;
+    line-height: 1.3;
+}
+
+.slash-command-item.selected .slash-command-title {
+    color: #1976d2;
+}
+
+/* 빈 상태 */
+.slash-command-empty {
+    padding: 16px;
+    text-align: center;
+    color: #6c757d;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* 스크롤바 스타일링 */
+.slash-commands-popup::-webkit-scrollbar {
+    width: 6px;
+}
+
+.slash-commands-popup::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.slash-commands-popup::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.slash-commands-popup::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .slash-commands-popup {
+        background: #2d3748;
+        border-color: #4a5568;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .slash-commands-list {
+        background: #2d3748;
+    }
+
+    .slash-command-item:hover {
+        background-color: #374151;
+    }
+
+    .slash-command-item.selected {
+        background-color: #1e40af;
+    }
+
+    .slash-command-icon {
+        background-color: #4a5568;
+        color: #e2e8f0;
+    }
+
+    .slash-command-item.selected .slash-command-icon {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    .slash-command-title {
+        color: #f7fafc;
+    }
+
+    .slash-command-description {
+        color: #a0aec0;
+    }
+
+    .slash-command-item.selected .slash-command-title {
+        color: #93c5fd;
+    }
+
+    .slash-command-empty {
+        color: #a0aec0;
+    }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .slash-commands-popup {
+        min-width: 250px;
+        max-width: 280px;
+    }
+
+    .slash-command-item {
+        padding: 10px 12px;
+    }
+
+    .slash-command-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .slash-command-title {
+        font-size: 13px;
+    }
+
+    .slash-command-description {
+        font-size: 11px;
+    }
+}

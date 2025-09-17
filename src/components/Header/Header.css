@@ -1,0 +1,157 @@
+/* -------- Header Layout -------- */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #ffffff;
+}
+
+.view-tabs {
+    display: flex;
+    gap: 12px;
+}
+
+.view-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: #f9fafb;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    transition: background 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.view-tab:hover {
+    background: #e5e7eb;
+}
+
+.view-tab.active {
+    background: #2563eb;
+    color: white;
+
+}
+/* -------- Header Right -------- */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.project-count {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.new-project-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.new-project-btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* -------- Modal Styling -------- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-modal {
+    background: white;
+    width: 400px;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.project-modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    outline: none;
+    transition: border 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: #2563eb;
+}
+
+.project-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-cancel-btn,
+.modal-create-btn {
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-cancel-btn {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.modal-cancel-btn:hover {
+    background: #d1d5db;
+}
+
+.modal-create-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.modal-create-btn:hover {
+    background: #1d4ed8;
+}

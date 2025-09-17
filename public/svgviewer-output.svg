@@ -1,0 +1,36 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 그라데이션 정의 -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0066ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4d8fff;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 그림자 필터 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="rgba(0,102,255,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- 배경 -->
+  <rect width="32" height="32" rx="6" fill="#ffffff"/>
+  
+  <!-- 메인 보드 -->
+  <rect x="4" y="8" width="20" height="14" rx="2" fill="url(#primaryGradient)" filter="url(#shadow)"/>
+  
+  <!-- 보드 위의 카드들 -->
+  <rect x="6" y="10" width="4" height="3" rx="0.5" fill="#ffffff" opacity="0.9"/>
+  <rect x="11" y="10" width="4" height="3" rx="0.5" fill="#ffffff" opacity="0.7"/>
+  <rect x="16" y="10" width="4" height="3" rx="0.5" fill="#ffffff" opacity="0.9"/>
+  
+  <!-- 하단 작은 카드들 -->
+  <rect x="6" y="15" width="7" height="1.5" rx="0.5" fill="#ffffff" opacity="0.8"/>
+  <rect x="14" y="15" width="6" height="1.5" rx="0.5" fill="#ffffff" opacity="0.6"/>
+  
+  <!-- 체크마크 -->
+  <circle cx="22" cy="12" r="2.5" fill="#28a745"/>
+  <path d="M21 12 L21.7 12.7 L23 11.4" stroke="#ffffff" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- P 글자 -->
+  <text x="16" y="28" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="700" fill="#0066ff" text-anchor="middle">P</text>
+</svg>

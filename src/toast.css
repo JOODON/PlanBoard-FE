@@ -1,0 +1,28 @@
+.my-toast {
+    background: #d3f4e0; /* 연한 파스텔 그린 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+}
+
+.my-toast-body {
+    color: #03c75a; /* 메인 컬러 */
+    font-weight: 500;
+}
+/* 경고용 토스트 커스텀 색상 */
+.my-warn-toast {
+    background: #ffe5b4; /* 연한 파스텔 오렌지 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+}
+
+/* 텍스트 색상 */
+.my-toast-body {
+    color: #ff9900; /* 경고 강조 컬러 */
+    font-weight: 500;
+}
