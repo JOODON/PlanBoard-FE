@@ -1,0 +1,62 @@
+/* CursorAnimation.css */
+@keyframes cursorBlink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes avatarPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes cursorAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.collaboration-cursor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1000;
+    animation: cursorAppear 0.3s ease-out;
+}
+
+.collaboration-cursor-line {
+    width: 2px;
+    height: 20px;
+    border-radius: 1px;
+    animation: cursorBlink 1.5s infinite;
+}
+
+.collaboration-cursor-avatar {
+    position: absolute;
+    top: -32px;
+    left: -11px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    border: 2px solid white;
+    animation: avatarPulse 2s infinite;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}

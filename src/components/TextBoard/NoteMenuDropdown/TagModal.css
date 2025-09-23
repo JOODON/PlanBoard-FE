@@ -1,0 +1,242 @@
+.tag-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.tag-modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid #e2e8f0;
+}
+
+.tag-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.tag-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.tag-input-section small {
+    font-size: 12px;         /* 작게 */
+    line-height: 1.4;        /* 텍스트 간격 조금 좁게 */
+    display: block;
+    margin: 8px;
+    color: #1d4ed8;
+}
+.tag-modal-close {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.tag-modal-close:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.tag-input-section {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.tag-input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.tag-input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.tag-input:focus {
+    border-color: #0066ff;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+.tag-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tag-add-btn:hover:not(:disabled) {
+    background: #0052cc;
+    transform: translateY(-1px);
+}
+
+.tag-add-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.tag-list-section {
+    padding: 20px 24px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.tag-list-section h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.no-tags {
+    color: #94a3b8;
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+}
+
+.tag-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: linear-gradient(135deg, #0066ff, #0052cc);
+    color: white;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tag-name {
+    white-space: nowrap;
+}
+
+.tag-remove-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    opacity: 0.8;
+    transition: all 0.2s ease;
+}
+
+.tag-remove-btn:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tag-modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding: 20px 24px;
+    border-top: 1px solid #e2e8f0;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.tag-cancel-btn,
+.tag-save-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tag-cancel-btn {
+    background: white;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.tag-cancel-btn:hover {
+    background: #f8fafc;
+    color: #475569;
+}
+
+.tag-save-btn {
+    background: #0066ff;
+    color: white;
+}
+
+.tag-save-btn:hover {
+    background: #0052cc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 102, 255, 0.2);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .tag-modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+
+    .tag-modal-header,
+    .tag-input-section,
+    .tag-list-section,
+    .tag-modal-buttons {
+        padding: 16px 20px;
+    }
+
+    .tag-modal-buttons {
+        flex-direction: column;
+    }
+
+    .tag-cancel-btn,
+    .tag-save-btn {
+        width: 100%;
+    }
+}

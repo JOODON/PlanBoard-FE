@@ -1,157 +1,246 @@
-/* -------- Header Layout -------- */
+
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 24px;
-    border-bottom: 1px solid #e5e7eb;
-    background-color: #ffffff;
+    padding: 0px 28px;
+    color: #374151;
 }
 
-.view-tabs {
+/* -------- Modern Tab Switch -------- */
+.view-switch {
     display: flex;
-    gap: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 4px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e9ecef;
 }
 
-.view-tab {
+.switch-option {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
+    gap: 8px;
+    padding: 12px 20px;
     border-radius: 8px;
-    background: #f9fafb;
     font-size: 14px;
-    font-weight: 500;
-    color: #374151;
-    transition: background 0.2s ease;
-    border: none;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #6c757d;
+    background: transparent;
+    border: none;
+    outline: none;
+    position: relative;
+    z-index: 1;
 }
 
-.view-tab:hover {
-    background: #e5e7eb;
-}
-
-.view-tab.active {
-    background: #2563eb;
+.switch-option.active {
+    background: #0066ff;
     color: white;
-
+    box-shadow: 0 2px 4px rgba(0, 102, 255, 0.2);
 }
+
+.switch-option:not(.active):hover {
+    color: #495057;
+    background: rgba(0, 102, 255, 0.08);
+}
+
+.switch-option .switch-icon {
+    width: 16px;
+    height: 16px;
+}
+
 /* -------- Header Right -------- */
 .header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
 .project-count {
     font-size: 14px;
-    color: #6b7280;
+    color: #6c757d;
+    font-weight: 500;
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
 }
 
-.new-project-btn {
+/* -------- Share Input Section -------- */
+.header-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
+    gap: 16px;
+}
+
+.share-join-section {
+    display: flex;
+    align-items: center;
+}
+
+.share-input {
+    padding: 10px 14px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+    width: 220px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #ffffff;
+    color: #495057;
 }
 
-.new-project-btn:hover {
-    background-color: #1d4ed8;
+.share-input::placeholder {
+    color: #adb5bd;
 }
 
-/* -------- Modal Styling -------- */
+.share-input:focus {
+    outline: none;
+    border-color: #0066ff;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+}
+
+/* -------- Modal Styling (Enhanced) -------- */
 .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
     z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .project-modal {
     background: white;
-    width: 400px;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 420px;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 90vw;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .project-modal-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    color: #1f2937;
 }
 
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .form-label {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     color: #374151;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     display: block;
 }
 
 .form-input {
     width: 100%;
-    padding: 10px 12px;
-    font-size: 14px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
+    padding: 12px 16px;
+    font-size: 15px;
+    border-radius: 12px;
+    border: 2px solid #e5e7eb;
     outline: none;
-    transition: border 0.2s ease;
+    transition: all 0.2s ease;
+    background: #f9fafb;
 }
 
 .form-input:focus {
-    border-color: #2563eb;
+    border-color: #0066ff;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
 }
 
 .project-modal-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 28px;
 }
 
 .modal-cancel-btn,
 .modal-create-btn {
-    padding: 8px 14px;
+    padding: 12px 20px;
     font-size: 14px;
-    border-radius: 8px;
+    font-weight: 600;
+    border-radius: 12px;
     border: none;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .modal-cancel-btn {
-    background: #e5e7eb;
-    color: #374151;
+    background: #f8f9fa;
+    color: #6c757d;
+    border: 1px solid #e9ecef;
 }
 
 .modal-cancel-btn:hover {
-    background: #d1d5db;
+    background: #e9ecef;
+    transform: translateY(-1px);
 }
 
 .modal-create-btn {
-    background: #2563eb;
+    background: #0066ff;
     color: white;
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
 }
 
 .modal-create-btn:hover {
-    background: #1d4ed8;
+    background: #0052cc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 102, 255, 0.4);
+}
+
+/* -------- Responsive -------- */
+@media (max-width: 768px) {
+    .header {
+        padding: 16px 20px;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .share-input {
+        width: 100%;
+    }
+
+    .switch-option {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
 }

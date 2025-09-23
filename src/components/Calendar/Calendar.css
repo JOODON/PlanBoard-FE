@@ -1,72 +1,18 @@
-/* Calendar.css */
-:root {
-    --primary: #0066ff;
-    --primary-light: #4d8fff;
-    --primary-dark: #0052cc;
-    --secondary: #6c757d;
-    --success: #28a745;
-    --warning: #ffc107;
-    --danger: #dc3545;
-    --info: #17a2b8;
-
-    --white: #ffffff;
-    --gray-50: #f8f9fa;
-    --gray-100: #f1f3f4;
-    --gray-200: #e9ecef;
-    --gray-300: #dee2e6;
-    --gray-400: #ced4da;
-    --gray-500: #adb5bd;
-    --gray-600: #6c757d;
-    --gray-700: #495057;
-    --gray-800: #343a40;
-    --gray-900: #212529;
-
-    --font-size-xs: 12px;
-    --font-size-sm: 14px;
-    --font-size-md: 16px;
-    --font-size-lg: 18px;
-    --font-size-xl: 20px;
-    --font-size-2xl: 24px;
-    --font-size-3xl: 28px;
-
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 12px;
-    --spacing-lg: 16px;
-    --spacing-xl: 20px;
-    --spacing-2xl: 24px;
-    --spacing-3xl: 32px;
-    --spacing-4xl: 48px;
-
-    --border-radius-sm: 6px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
-    --border-radius-xl: 16px;
-
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.12);
-}
-.calendar-wrapper{
-    padding: var(--spacing-xl) var(--spacing-lg);
+/* 캘린더 컨테이너 */
+.calendar-wrapper {
     background: var(--gray-50);
-    min-height: 100vh;
+    min-height: 88vh;
 }
-.calendar-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    background: var(--white);
-    /*border-radius: var(--border-radius-lg);*/
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
 
+.calendar-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    max-width: 1200px;
+    width: 100%;
+    max-height: 89vh;
+    overflow: auto;
 }
 
 /* 캘린더 헤더 */
@@ -74,407 +20,564 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-xl);
-    background: var(--primary);
-    color: var(--white);
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    height: 80px;
+    margin-bottom: 30px;
+    padding: 0 10px;
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .calendar-nav-btn {
-    background: rgba(255, 255, 255, 0.15);
+    background: #f8f9fa;
     border: none;
-    border-radius: var(--border-radius-md);
-    padding: var(--spacing-md);
-    cursor: pointer;
-    color: var(--white);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
-    transition: all var(--transition-normal);
-    backdrop-filter: blur(10px);
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #495057;
 }
 
 .calendar-nav-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-1px);
+    background: #e9ecef;
+    transform: scale(1.1);
 }
 
 .calendar-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
     margin: 0;
-    font-size: var(--font-size-2xl);
-    font-weight: var(--font-weight-bold);
-    letter-spacing: -0.02em;
+    text-align: center;
+    min-width: 200px;
+}
+
+/* 전체 일정 보기 컨트롤 */
+.calendar-controls {
+    display: flex;
+    align-items: center;
+}
+
+.toggle-all-projects {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 25px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6c757d;
+}
+
+.toggle-all-projects:hover {
+    border-color: #007bff;
+    color: #007bff;
+    transform: translateY(-2px);
+}
+
+.toggle-all-projects.active {
+    background: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.toggle-all-projects.active:hover {
+    background: #0056b3;
+    border-color: #0056b3;
 }
 
 /* 요일 헤더 */
 .calendar-weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    background: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
+    gap: 2px;
+    margin-bottom: 10px;
 }
 
 .weekday-cell {
-    padding: var(--spacing-md);
     text-align: center;
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-sm);
-    color: var(--gray-600);
-}
-
-.weekday-cell:nth-child(1) {
-    color: var(--error);
-}
-
-.weekday-cell:nth-child(7) {
-    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+    color: #6c757d;
+    padding: 15px 5px;
+    background: #f8f9fa;
+    border-radius: 8px;
 }
 
 /* 캘린더 그리드 */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, minmax(80px, 1fr));
-    flex: 1;
-    gap: 1px;
-    background: var(--gray-200);
+    gap: 2px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 10px;
 }
 
-/* 날짜 셀 */
 .calendar-cell {
-    background: var(--white);
-    padding: var(--spacing-sm);
-    cursor: pointer;
+    min-height: 120px;
+    background: white;
+    border-radius: 8px;
+    padding: 8px;
     position: relative;
-    min-height: 100px;
-    transition: all var(--transition-normal);
-    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid transparent;
 }
 
 .calendar-cell:hover {
-    background: var(--gray-50);
-}
-
-.calendar-cell.project-range {
-    background: rgba(0, 102, 255, 0.05);
-}
-
-.calendar-cell.project-start,
-.calendar-cell.project-end,
-.calendar-cell.project-both {
-    background: rgba(0, 102, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-color: #e9ecef;
 }
 
 .calendar-cell.today {
-    border: 2px solid var(--primary);
-    background: var(--primary-lighter);
+    border-color: #007bff;
+    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
 }
 
 /* 날짜 숫자 */
 .date-number {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    margin-bottom: var(--spacing-xs);
-    position: relative;
-    z-index: 2;
+    font-weight: 600;
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 5px;
 }
 
 .date-number.today {
-    font-weight: var(--font-weight-bold);
-    color: var(--primary);
+    color: #007bff;
+    font-weight: 700;
 }
 
 .date-number.weekend {
-    color: var(--error);
+    color: #dc3545;
 }
 
 .date-number.saturday {
-    color: var(--primary);
+    color: #007bff;
 }
 
-/* 프로젝트 바 */
+/* 현재 프로젝트 스타일 */
+.calendar-cell.project-start {
+    border-left: 4px solid var(--primary);
+    background: linear-gradient(90deg, rgba(0, 102, 255, 0.1) 0%, rgba(77, 143, 255, 0.1) 100%);
+}
+
+.calendar-cell.project-end {
+    border-right: 4px solid var(--primary-dark);
+    background: linear-gradient(90deg, rgba(0, 102, 255, 0.1) 0%, rgba(77, 143, 255, 0.1) 100%);
+}
+
+.calendar-cell.project-range {
+    background: linear-gradient(90deg, rgba(0, 102, 255, 0.1) 0%, rgba(77, 143, 255, 0.1) 100%);
+}
+
+.calendar-cell.project-both {
+    border-left: 4px solid var(--primary);
+    border-right: 4px solid var(--primary-dark);
+    background: linear-gradient(90deg, rgba(0, 102, 255, 0.15) 0%, rgba(77, 143, 255, 0.15) 100%);
+}
+
+
 .project-bar {
     position: absolute;
-    bottom: var(--spacing-lg);
-    left: 0;
-    right: 0;
-    height: 8px;
-    background: rgba(0, 102, 255, 0.6);
-    z-index: 1;
-    transition: all var(--transition-normal);
-}
-
-.project-bar.start {
-    left: var(--spacing-sm);
-    border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
-}
-
-.project-bar.end {
-    right: var(--spacing-sm);
-    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
-}
-
-.project-bar.both {
-    left: var(--spacing-sm);
-    right: var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
+    top: 30px;
+    left: 4px;
+    right: 4px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #3b82f6;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .project-bar:hover {
-    background: var(--primary);
-    cursor: move;
+    height: 8px;
+    top: 29px;
+    box-shadow: 0 2px 8px #3b82f6;
 }
 
-/* 프로젝트 이름 라벨 */
 .project-label {
     position: absolute;
-    bottom: var(--spacing-2xl);
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-semibold);
-    background: var(--primary);
-    color: var(--white);
-    padding: 2px var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
-    white-space: nowrap;
-    max-width: calc(100% - 16px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    box-shadow: var(--shadow-sm);
+    top: 40px;
+    left: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1d4ed8;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-/* 프로젝트 마커 */
+.project-label:hover {
+    color: #000000;
+}
+
 .project-marker {
     position: absolute;
-    bottom: var(--spacing-lg);
-    width: 6px;
-    height: 6px;
-    border-radius: var(--border-radius-full);
-    z-index: 3;
-    border: 2px solid var(--white);
-    box-shadow: var(--shadow-sm);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    top: 27px;
 }
 
 .project-marker.start {
-    left: var(--spacing-sm);
-    background: var(--secondary);
+    left: 2px;
+    background: #0076ff;
 }
 
 .project-marker.end {
-    right: var(--spacing-sm);
-    background: var(--error);
+    right: 2px;
+    background: #0076ff;
 }
 
-/* 이벤트 목록 */
+/* 전체 일정 보기 스타일 */
+.all-projects-view {
+    position: relative;
+    flex: 1;
+    margin-top: 5px;
+}
+
+.project-in-all-view {
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.project-bar-all {
+    height: 4px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+}
+
+.project-bar-all:hover {
+    opacity: 1;
+    height: 6px;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.project-bar-all.start {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+.project-bar-all.end {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.project-bar-all.both {
+    border-radius: 6px;
+}
+
+.project-label-all {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.9;
+
+}
+
+.project-label-all:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* 이벤트 스타일 */
 .events-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-top: var(--spacing-xs);
+    margin-top: auto;
+    padding-top: 5px;
 }
 
 .event-item {
-    background: var(--primary);
-    color: var(--white);
-    padding: 2px var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-xs);
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+    font-size: 10px;
+    color: #495057;
     cursor: move;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: all var(--transition-fast);
+    transition: background-color 0.2s ease;
 }
 
 .event-item:hover {
-    background: var(--primary-light);
+    background: #e9ecef;
 }
 
 .events-overflow {
-    font-size: var(--font-size-xs);
-    color: var(--gray-500);
+    font-size: 9px;
+    color: #6c757d;
     text-align: center;
     margin-top: 2px;
 }
 
-/* 날짜 추가 버튼 */
-.date-add-btn {
-    position: absolute;
-    top: var(--spacing-xs);
-    right: var(--spacing-xs);
-    background: var(--primary);
-    color: var(--white);
-    border: none;
-    border-radius: var(--border-radius-full);
-    width: 20px;
-    height: 20px;
+/* 모달 공통 스타일 */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    opacity: 0.7;
-    font-size: var(--font-size-xs);
-    transition: all var(--transition-normal);
-    z-index: 3;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
 }
 
-.date-add-btn:hover {
-    opacity: 1;
-    transform: scale(1.1);
-    background: var(--primary-light);
+.modal {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    animation: modalSlideIn 0.3s ease;
 }
 
-/* 이벤트 모달 */
-.event-modal {
-    width: 480px;
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 프로젝트 상세보기 모달 */
+.project-detail-modal {
+    width: 500px;
     max-width: 90vw;
 }
 
-.event-modal-header {
-    padding: var(--spacing-2xl) var(--spacing-2xl) var(--spacing-xl);
-}
-
-.event-modal-title {
-    margin: 0;
-    color: var(--primary);
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-}
-
-.event-modal-body {
-    padding: 0 var(--spacing-2xl) var(--spacing-xl);
-}
-
-.event-form-group {
-    margin-bottom: var(--spacing-lg);
-}
-
-.event-form-label {
-    display: block;
-    margin-bottom: var(--spacing-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--gray-700);
-    font-size: var(--font-size-sm);
-}
-
-.event-form-input {
-    width: 100%;
-    padding: var(--spacing-md) var(--spacing-lg);
-    border: 2px solid var(--gray-300);
-    border-radius: var(--border-radius-md);
-    font-size: var(--font-size-sm);
-    background: var(--white);
-    transition: all var(--transition-normal);
-}
-
-.event-form-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-lighter);
-}
-
-.event-form-input::placeholder {
-    color: var(--gray-400);
-}
-
-.event-modal-footer {
+.project-detail-header {
     display: flex;
-    gap: var(--spacing-md);
-    justify-content: flex-end;
-    padding: var(--spacing-lg) var(--spacing-2xl) var(--spacing-2xl);
-    background: var(--gray-50);
-    border-top: 1px solid var(--gray-200);
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 1px solid #e9ecef;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 16px 16px 0 0;
 }
 
-.event-modal-btn {
-    padding: var(--spacing-md) var(--spacing-xl);
-    border-radius: var(--border-radius-md);
-    cursor: pointer;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    transition: all var(--transition-normal);
+.project-detail-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
 }
 
-.event-cancel-btn {
-    border: 1px solid var(--gray-300);
-    background: var(--white);
-    color: var(--gray-600);
-}
-
-.event-cancel-btn:hover {
-    background: var(--gray-100);
-    border-color: var(--gray-400);
-}
-
-.event-add-btn {
-    background: var(--primary);
-    color: var(--white);
+.modal-close-btn {
+    background: none;
     border: none;
+    font-size: 24px;
+    color: #6c757d;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
 }
 
-.event-add-btn:hover:not(:disabled) {
-    background: var(--primary-light);
+.modal-close-btn:hover {
+    background: #f8f9fa;
+    color: #495057;
 }
 
-.event-add-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.project-detail-body {
+    padding: 30px;
+}
+
+.project-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.project-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.project-detail-item label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 14px;
+}
+
+.project-detail-item span {
+    color: #2c3e50;
+    font-size: 16px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.project-status {
+    font-weight: 600;
+}
+
+.project-description {
+    margin: 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    color: #495057;
+    line-height: 1.5;
+}
+
+.project-detail-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 30px;
+    border-top: 1px solid #e9ecef;
+    background: #f8f9fa;
+    border-radius: 0 0 16px 16px;
+}
+
+.project-detail-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.project-select-btn {
+    background: #007bff;
+    color: white;
+}
+
+.project-select-btn:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.project-close-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.project-close-btn:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
+    .calendar-wrapper {
+        padding: 10px;
+    }
+
+    .calendar-container {
+        padding: 20px;
+    }
+
     .calendar-header {
-        padding: var(--spacing-lg);
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
     }
 
     .calendar-title {
-        font-size: var(--font-size-lg);
-    }
-
-    .calendar-grid {
-        grid-template-rows: repeat(6, minmax(60px, 1fr));
+        font-size: 24px;
+        min-width: auto;
     }
 
     .calendar-cell {
-        min-height: 70px;
-        padding: var(--spacing-xs);
+        min-height: 80px;
+        padding: 6px;
     }
 
     .date-number {
-        font-size: var(--font-size-xs);
+        font-size: 14px;
+    }
+
+    .project-detail-modal {
+        width: 95vw;
+        margin: 10px;
+    }
+
+    .project-detail-header {
+        padding: 20px;
+    }
+
+    .project-detail-title {
+        font-size: 20px;
+    }
+
+    .project-detail-body {
+        padding: 20px;
+    }
+
+    .project-detail-footer {
+        padding: 15px 20px;
+        flex-direction: column;
+    }
+
+    .project-detail-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .calendar-grid {
+        gap: 1px;
+        padding: 5px;
+    }
+
+    .calendar-cell {
+        min-height: 60px;
+        padding: 4px;
+    }
+
+    .date-number {
+        font-size: 12px;
+    }
+
+    .project-bar {
+        height: 4px;
+        top: 25px;
     }
 
     .project-label {
+        top: 32px;
         font-size: 9px;
-        padding: 1px 4px;
     }
 
-    .date-add-btn {
-        width: 16px;
-        height: 16px;
-    }
-
-    .event-modal {
-        width: calc(100vw - 32px);
-        margin: var(--spacing-lg);
-    }
-
-    .event-modal-header,
-    .event-modal-body {
-        padding-left: var(--spacing-lg);
-        padding-right: var(--spacing-lg);
-    }
-
-    .event-modal-footer {
-        flex-direction: column;
-        padding: var(--spacing-lg);
-        gap: var(--spacing-md);
-    }
-
-    .event-modal-btn {
-        width: 100%;
-        padding: var(--spacing-lg);
-        justify-content: center;
+    .toggle-all-projects {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import {Share2, Edit3, Copy, Trash2, Download} from 'lucide-react';
+import {Share2, Edit3, Copy, Trash2, Download, Tag} from 'lucide-react';
 
 const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef}) => {
     const [position, setPosition] = React.useState({ top: 0, right: 0 });
@@ -36,6 +36,12 @@ const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef}) => {
             color: '#3b82f6'
         },
         {
+            id: 'tag',
+            label: '태그',
+            icon: <Tag size={20}/>,
+            color: '#0066ff'  // 메인 블루 컬러로 변경
+        },
+        {
             id: 'edit',
             label: '노트 편집',
             icon: <Edit3 size={20}/>,
@@ -53,6 +59,7 @@ const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef}) => {
             icon: <Download size={20}/>,
             color: '#6b7280'
         },
+
         {
             id: 'delete',
             label: '삭제',

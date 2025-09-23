@@ -1,0 +1,224 @@
+.textboard-header-modern {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 24px 32px;
+    gap: 32px;
+}
+
+.project-section {
+    justify-self: start;
+}
+
+.project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.project-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.project-type {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.document-switcher {
+    justify-self: center;
+}
+
+.switcher-track {
+    display: flex;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 2px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.switcher-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.switcher-option:hover {
+    color: #334155;
+}
+
+.switcher-option.active {
+    background: #0066ff;
+    color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.actions-section {
+    justify-self: end;
+    display: flex;
+    gap: 12px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.action-btn.secondary {
+    background: #ffffff;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.action-btn.secondary:hover {
+    background: #f8fafc;
+    color: #475569;
+    border-color: #cbd5e1;
+}
+
+.action-btn.primary {
+    background: #0066ff;
+    color: white;
+    border: 1px solid #0066ff;
+}
+
+.action-btn.primary:hover:not(:disabled) {
+    background: #0052cc;
+    border-color: #0052cc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 102, 255, 0.2);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.share-input-section {
+    padding: 0 32px 24px;
+    border-top: 1px solid #e2e8f0;
+    margin-top: -1px;
+    background: rgba(255, 255, 255, 0.5);
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 태블릿 반응형 */
+@media (max-width: 1024px) {
+    .header-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        text-align: center;
+    }
+
+    .project-section,
+    .document-switcher,
+    .actions-section {
+        justify-self: center;
+    }
+
+    .actions-section {
+        order: 3;
+    }
+
+    .document-switcher {
+        order: 2;
+    }
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .header-grid {
+        padding: 20px 24px;
+        gap: 20px;
+    }
+
+    .project-name {
+        font-size: 18px;
+    }
+
+    .switcher-option {
+        padding: 8px 12px;
+        font-size: 13px;
+        gap: 6px;
+    }
+
+    .action-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .share-input-section {
+        padding: 0 24px 20px;
+    }
+}
+
+/* 소형 모바일 */
+@media (max-width: 480px) {
+    .header-grid {
+        padding: 16px 20px;
+    }
+
+    .switcher-option span {
+        display: none;
+    }
+
+    .action-btn span {
+        display: none;
+    }
+
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        justify-content: center;
+    }
+}

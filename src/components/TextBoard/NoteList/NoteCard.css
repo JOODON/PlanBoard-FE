@@ -1,0 +1,69 @@
+.note-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0;
+    padding-top: 8px;
+    /*border-top: 1px solid #f1f5f9;*/
+}
+
+.note-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: linear-gradient(135deg, #0066ff, #0052cc);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.note-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 102, 255, 0.3);
+}
+
+.note-tag-placeholder {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    background: #f8fafc;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 400;
+    border-radius: 12px;
+    border: 1px dashed #e2e8f0;
+}
+
+/* 태그 색상 변형 (선택사항) */
+.note-tag.tag-work {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.note-tag.tag-personal {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.note-tag.tag-idea {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.note-tag.tag-urgent {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .note-tags {
+        gap: 4px;
+        margin: 10px 0;
+    }
+
+    .note-tag {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+}

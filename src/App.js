@@ -4,7 +4,7 @@ import TextBoard from './components/TextBoard/TextBoard';
 import Calendar from './components/Calendar/Calendar';
 import Header from './components/Header/Header';
 import {createUser, getUser} from './api/UserApi';
-import {getProjectsByUser} from './api/ProjectApi';
+import {createProject, getProjectsByUser} from './api/ProjectApi';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './toast.css';
@@ -85,6 +85,7 @@ function App() {
 
     if (!user && !showUserModal) return null;
 
+
     return (
         <div style={{ display: 'flex', height: '100vh', position: 'relative' }}>
             {/* Sidebar */}
@@ -107,6 +108,7 @@ function App() {
                         setProjects(prev => prev.filter(p => p.id !== id));
                         setSelectedProject(prev => (prev && prev.id === id ? null : prev));
                     }}
+                    setProjects={setProjects}
                 />
             )}
 
@@ -130,16 +132,12 @@ function App() {
                                     project={selectedProject}
                                     setProjects={setProjects}
                                     setSelectedProject={setSelectedProject}
+                                    allProjects={projects}
+                                    setCurrentView={setCurrentView}
                                 />
                             ) : (
-                                <div style={{
-                                    height: '100%',
-                                    background: 'white',
-                                    borderRadius: '12px',
-                                    boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-                                    overflow: 'hidden'
-                                }}>
-                                    <TextBoard project={selectedProject} />
+                                <div>
+                                    <TextBoard project={selectedProject}/>
                                 </div>
                             )}
                         </>
