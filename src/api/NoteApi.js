@@ -50,12 +50,35 @@ export const getNoteList = async (userId, projectId) => {
 
 };
 
-export const getNoteShareUrl = async ( noteId ) =>{
-    const storedUserId = getStoredUserId();
-    const response = await API.get(`/api/notes/${noteId}/share`, {
-        headers: { 'userId': storedUserId },
+export const getShareNoteList = async ( userId, projectId ) => {
+    const response = await API.get(`/api/notes/share/${projectId}`, {
+        headers: { 'userId': userId }
     });
-    return response.data.data
+    let result = response.data.data;
+
+    return result.map(note => ({
+        ...note,
+        tags: (note.tags && note.tags.length > 0)
+            ? note.tags.map(t => t.tag) // 객체 배열 → 문자열 배열
+            : ["당신", "메모의", "태그를", "추가해주세요"]
+    }));
+
+};
+
+export const addShareNote = async (noteId, projectId, sharedUserRole) => {
+    const storedUserId = getStoredUserId();
+
+    const response = await API.post(
+        `/api/notes/share`,
+        {
+            noteId: noteId,
+            projectId: projectId,
+            sharedUserRole: sharedUserRole
+        },
+        {headers: {'userId': storedUserId}} // config: 헤더
+    );
+
+    return response.data.data;
 }
 
 export const updateNoteTags = async (noteId, newTags) => {
@@ -73,13 +96,4 @@ export const updateNoteTags = async (noteId, newTags) => {
     }
 
     return response.data.data;
-}
-
-
-export const getSharedNoteList = async (userId, projectId) => {
-    const response = await API.get(`/api/notes/share`, {
-        headers: { 'userId': userId }
-    });
-
-    return response.data.data
 }

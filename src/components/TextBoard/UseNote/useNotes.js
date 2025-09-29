@@ -1,15 +1,55 @@
 import { useState, useEffect } from 'react';
-import {createNote, getNoteList, updateNote, deleteNote, getNoteShareUrl, updateNoteTags} from '../../../api/NoteApi';
+import {
+    createNote,
+    getNoteList,
+    updateNote,
+    deleteNote,
+    addShareNote,
+    updateNoteTags,
+    getShareNoteList
+} from '../../../api/NoteApi';
 import { getStoredUserId } from '../../../Util/UserInfo';
 import { toast } from 'react-toastify';
+import {copyNoteToClipboard, copyToClipboard} from "../../../Util/NoteUtils";
 
-export const useNotes = (project) => {
+export const useNotes = (project, documentType) => {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const fetchNotes = async () => {
-        if (!project?.id) return;
+    const fetchNotesByType = async () => {
+        if (documentType === 'personal') {
+            await fetchNotes();
+        } else {
+            await fetchShareNotes();
+        }
+    };
 
+    const fetchShareNotes = async () => {
+        setLoading(true);
+        const shortProjectName = project.name.length > 5 ? `${project.name.substring(0, 5)}...` : project.name;
+
+        try {
+            setNotes([]);
+            const storedUserId = getStoredUserId();
+            const data = await getShareNoteList(storedUserId, project.id);
+
+            if (data?.length > 0) {
+                setNotes(data);
+                toast.success(`"${shortProjectName}"의 공유중인 노트 ${data.length}개를 불러왔어요.`);
+            } else {
+                setNotes([]);
+                toast.info(`"${shortProjectName}"에 공유중인 노트가 없습니다.`);
+            }
+        } catch (error) {
+            console.error('공유 노트 로드 에러:', error);
+            setNotes([]);
+            toast.error('공유 노트를 불러오는 중 오류가 발생했습니다.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchNotes = async () => {
         setLoading(true);
         const shortProjectName = project.name.length > 5 ? `${project.name.substring(0, 5)}...` : project.name;
 
@@ -62,10 +102,10 @@ export const useNotes = (project) => {
         }
     };
 
-    const shareNote = async (noteId) => {
+    const shareNote = async (noteId, projectId) => {
         try {
-            const shareUrl = await getNoteShareUrl(noteId);
-            await navigator.clipboard.writeText(shareUrl.url);
+            const shareUrl = await addShareNote(noteId, projectId);
+            await copyToClipboard(shareUrl.url);
             toast.success('공유 링크 복사됨 (Ctrl+V로 붙여넣기)');
         }catch (e){
             toast.error(`공유 노트 생성에 실패하였습니다. ${e}`);
@@ -84,8 +124,8 @@ export const useNotes = (project) => {
     }
 
     useEffect(() => {
-        fetchNotes();
-    }, [project?.id, project?.name]);
+        fetchNotesByType();
+    }, [project?.id, project?.name, documentType]); // documentType 추가
 
     return {
         notes,
@@ -95,7 +135,7 @@ export const useNotes = (project) => {
         deleteNoteById,
         shareNote,
         updateNoteTags,
-        refetch: fetchNotes,
+        refetch: fetchNotesByType,
         updateTags
     };
 };

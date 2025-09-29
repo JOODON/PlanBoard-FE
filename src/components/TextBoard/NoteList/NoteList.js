@@ -4,7 +4,7 @@
 import React from 'react';
 import NoteCard from './NoteCard';
 
-const NoteList = ({ notes, project, loading, onEditNote, onMenuAction }) => {
+const NoteList = ({ notes, project, loading, onEditNote, onMenuAction , documentType}) => {
     if (loading) {
         return (
             <div className="loading-state" style={{ textAlign: 'center', padding: '40px' }}>
@@ -31,6 +31,7 @@ const NoteList = ({ notes, project, loading, onEditNote, onMenuAction }) => {
                     note={note}
                     onEdit={onEditNote}
                     onMenuAction={onMenuAction}
+                    documentType={documentType}
                 />
             ))}
         </div>

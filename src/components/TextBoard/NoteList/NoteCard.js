@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { FaEllipsisV, FaEdit, FaTrash } from 'react-icons/fa';
 import NoteMenuDropdown from '../NoteMenuDropdown/NoteMenuDropdown';
 import './NoteCard.css'
-const NoteCard = ({ note, onEdit, onMenuAction }) => {
+const NoteCard = ({ note, onEdit, onMenuAction , documentType}) => {
     const [showMenu, setShowMenu] = useState(false);
     const buttonRef = useRef(null);
 
@@ -59,6 +59,7 @@ const NoteCard = ({ note, onEdit, onMenuAction }) => {
                             onClose={() => setShowMenu(false)}
                             onMenuClick={handleMenuAction}
                             buttonRef={buttonRef}
+                            documentType={documentType}
                         />
                     )}
                 </div>

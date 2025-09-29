@@ -15,4 +15,21 @@ export const copyNoteToClipboard = (raw) => {
         .catch(err => {
             console.error("복사 실패:", err);
         });
+
+};
+
+export const copyToClipboard = async (text) => {
+    try {
+        await navigator.clipboard.writeText(text);
+    } catch {
+        try {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+        } catch (e) {
+        }
+    }
 };

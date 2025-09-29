@@ -2,7 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import {Share2, Edit3, Copy, Trash2, Download, Tag} from 'lucide-react';
 
-const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef}) => {
+const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef , documentType}) => {
     const [position, setPosition] = React.useState({ top: 0, right: 0 });
 
     React.useEffect(() => {
@@ -28,45 +28,72 @@ const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef}) => {
         }
     };
 
-    const menuItems = [
-        {
-            id: 'share',
-            label: '노트 공유해서 작성하기',
-            icon: <Share2 size={20}/>,
-            color: '#3b82f6'
-        },
-        {
-            id: 'tag',
-            label: '태그',
-            icon: <Tag size={20}/>,
-            color: '#0066ff'  // 메인 블루 컬러로 변경
-        },
-        {
-            id: 'edit',
-            label: '노트 편집',
-            icon: <Edit3 size={20}/>,
-            color: '#6b7280'
-        },
-        {
-            id: 'copy',
-            label: '노트 복사',
-            icon: <Copy size={20}/>,
-            color: '#6b7280'
-        },
-        {
-            id: 'download',
-            label: '다운로드',
-            icon: <Download size={20}/>,
-            color: '#6b7280'
-        },
+    const getMenuItems = () => {
+        if (documentType === 'shared') {
+            return [
+                {
+                    id: 'copy-to-project',
+                    label: '내 프로젝트로 가져오기',
+                    icon: <Download size={20}/>,
+                    color: '#3b82f6'
+                },
+                {
+                    id: 'stop-sharing',
+                    label: '공유 중지',
+                    icon: <Share2 size={20}/>,
+                    color: '#6b7280'
+                },
+                {
+                    id: 'delete-shared',
+                    label: '공유 목록에서 제거',
+                    icon: <Trash2 size={20}/>,
+                    color: '#ef4444'
+                }
+            ];
+        }else {
+            return [
+                {
+                    id: 'share',
+                    label: '노트 공유해서 작성하기',
+                    icon: <Share2 size={20}/>,
+                    color: '#3b82f6'
+                },
+                {
+                    id: 'tag',
+                    label: '태그',
+                    icon: <Tag size={20}/>,
+                    color: '#0066ff'  // 메인 블루 컬러로 변경
+                },
+                {
+                    id: 'edit',
+                    label: '노트 편집',
+                    icon: <Edit3 size={20}/>,
+                    color: '#6b7280'
+                },
+                {
+                    id: 'copy',
+                    label: '노트 복사',
+                    icon: <Copy size={20}/>,
+                    color: '#6b7280'
+                },
+                {
+                    id: 'download',
+                    label: '다운로드',
+                    icon: <Download size={20}/>,
+                    color: '#6b7280'
+                },
 
-        {
-            id: 'delete',
-            label: '삭제',
-            icon: <Trash2 size={20}/>,
-            color: '#ef4444'
+                {
+                    id: 'delete',
+                    label: '삭제',
+                    icon: <Trash2 size={20}/>,
+                    color: '#ef4444'
+                }
+            ];
         }
-    ];
+
+    };
+    const menuItems = getMenuItems()
 
     const dropdownStyle = {
         position: 'fixed',

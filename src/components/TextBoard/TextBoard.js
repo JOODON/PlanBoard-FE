@@ -50,7 +50,7 @@ function TextBoard({ project }) {
         deleteNoteById,
         shareNote,
         updateTags
-    } = useNotes(project);
+    } = useNotes(project, documentType);
 
     const {
         editor,
@@ -62,7 +62,6 @@ function TextBoard({ project }) {
 
     const handleDocumentTypeChange = (type) => {
         setDocumentType(type);
-        console.log('문서 타입 변경:', type);
     };
 
     // 사용자별 고유 색상 생성 함수
@@ -290,12 +289,16 @@ function TextBoard({ project }) {
     };
 
     // WebSocket 관련 함수
-    const handleJoinSharedNote = async () => {
-        if (!shareUrl.trim()) return;
+    const handleJoinSharedNote = async (urlOrEvent = null) => {
+        // 이벤트 객체인지 확인하는 더 안전한 방법
+        const isEvent = urlOrEvent && typeof urlOrEvent === 'object' && (urlOrEvent._reactName || urlOrEvent.nativeEvent);
+
+        const url = isEvent ? null : urlOrEvent;
+        const targetUrl = url || shareUrl;
 
         try {
             const userId = getStoredUserId();
-            const fullShareUrl = `${shareUrl}&requestUserId=${userId}`;
+            const fullShareUrl = `${targetUrl}&requestUserId=${userId}&projectId=${project.id}`;
 
             // 기존 WebSocket 연결이 있으면 종료
             if (socketRef.current) {
@@ -324,7 +327,7 @@ function TextBoard({ project }) {
                 }
 
                 if (data.type === 'is-open') {
-                    console.log('is-open 메시지 받음:', data);
+                    // console.log('is-open 메시지 받음:', data);
                     setIsSharing(true);
                     setParticipants(data.participants || []);
                     setIsShareEdit(data.isShareEdit);
@@ -339,7 +342,7 @@ function TextBoard({ project }) {
                             lastUpdateRef.current = data.raw || ''; // 초기 내용 설정
                         }
                     } else {
-                        openModalForEdit(data, data.isShareEdit);
+                        openModalForEdit(data, data.isShareEdit, true);
                     }
                     return;
                 }
@@ -429,37 +432,30 @@ function TextBoard({ project }) {
         lastUpdateRef.current = ''; // 초기화
     };
 
-    const openModalForEdit = async (note, shareEdit = false) => {
-        console.log('openModalForEdit 호출됨:', {
-            note,
-            shareEdit,
-            currentEditingNote: editingNote
-        });
+    const openModalForEdit = async (note, shareEdit = false, fromWebSocket = false) => {
+        //진입시 Doc 타입 체크
+        if (documentType === 'shared' && !fromWebSocket) {
+            setShareUrl(note.connUrl);
+            await handleJoinSharedNote(note.connUrl);
+            return;
+        }
 
-        setEditingNote(note);
+        setEditingNote(note); //현재 편집중인 노트
         editingNoteRef.current = note; // ref에도 동시에 설정
-        setIsShareEdit(shareEdit);
+        setIsShareEdit(shareEdit);     //편집중인 ShareEdit
         setModalOpen(true);
 
         try {
             if (editor) {
+                //초기 진입시
                 editor.commands.setContent(note.raw || "");
                 editor.chain().focus().run();
                 lastUpdateRef.current = note.raw || ''; // 초기 내용 설정
-
-                console.log('에디터 모달 열기:', {
-                    noteId: note.id,
-                    shareEdit,
-                    isSharing,
-                    hasEditor: !!editor,
-                    noteContent: note.raw?.substring(0, 50)
-                });
             } else {
                 // 에디터가 아직 준비되지 않은 경우 - 잠시 후 다시 시도
                 console.log('에디터가 아직 준비되지 않음 - 100ms 후 재시도');
                 setTimeout(() => {
                     if (editor) {
-                        console.log('지연 후 에디터 내용 설정');
                         editor.commands.setContent(note.raw || "");
                         editor.chain().focus().run();
                         lastUpdateRef.current = note.raw || '';
@@ -583,7 +579,6 @@ function TextBoard({ project }) {
         try {
             // API 호출해서 태그 업데이트
             await updateTags(tagEditingNoteId, newTags);
-
             toast.success('태그가 업데이트되었습니다.');
             closeTagModal();
         } catch (error) {
@@ -596,7 +591,7 @@ function TextBoard({ project }) {
     const handleMenuAction = async (action, noteId, noteData) => {
         switch (action) {
             case 'share':
-                await shareNote(noteId);
+                await shareNote(noteId, project.id);
                 break;
             case 'tag':
                 await openTagModal(noteId, noteData);
@@ -653,6 +648,7 @@ function TextBoard({ project }) {
                     loading={loading}
                     onEditNote={openModalForEdit}
                     onMenuAction={handleMenuAction}
+                    documentType={documentType}
                 />
 
                 {/* 모달 */}
