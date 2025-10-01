@@ -1,5 +1,6 @@
+/* 성공 토스트 */
 .my-toast {
-    background: #d3f4e0; /* 연한 파스텔 그린 */
+    background: #0076ff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     padding: 10px 15px;
@@ -7,13 +8,14 @@
     font-size: 14px;
 }
 
-.my-toast-body {
-    color: #03c75a; /* 메인 컬러 */
+.my-toast .Toastify__toast-body {
+    color: #0076ff;
     font-weight: 500;
 }
-/* 경고용 토스트 커스텀 색상 */
+
+/* 경고 토스트 */
 .my-warn-toast {
-    background: #ffe5b4; /* 연한 파스텔 오렌지 */
+    background: #ffe5b4;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     padding: 10px 15px;
@@ -21,8 +23,40 @@
     font-size: 14px;
 }
 
-/* 텍스트 색상 */
-.my-toast-body {
-    color: #ff9900; /* 경고 강조 컬러 */
+.my-warn-toast .Toastify__toast-body {
+    color: #ff9900;
     font-weight: 500;
+}
+
+/* 에러 토스트 */
+.my-error-toast {
+    background: #ffd4d4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+}
+
+.my-error-toast .Toastify__toast-body {
+    color: #ff4444;
+    font-weight: 500;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .my-toast,
+    .my-warn-toast,
+    .my-error-toast {
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 8px;
+        max-width: 90%;
+    }
+
+    .my-toast .Toastify__toast-body,
+    .my-warn-toast .Toastify__toast-body,
+    .my-error-toast .Toastify__toast-body {
+        font-size: 12px;
+    }
 }

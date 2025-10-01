@@ -6,7 +6,8 @@ import {
     deleteNote,
     addShareNote,
     updateNoteTags,
-    getShareNoteList
+    getShareNoteList,
+    deleteShareNoteById
 } from '../../../api/NoteApi';
 import { getStoredUserId } from '../../../Util/UserInfo';
 import { toast } from 'react-toastify';
@@ -85,12 +86,12 @@ export const useNotes = (project, documentType) => {
         const storedUserId = getStoredUserId();
         await updateNote(noteId, storedUserId, htmlContent, project.id);
         toast.success('메모가 수정되었습니다.');
-        await fetchNotes();
+        //await fetchNotes();
+        await fetchNotesByType()
     };
 
     const deleteNoteById = async (noteId) => {
         if (!window.confirm('이 메모를 삭제하시겠습니까?')) return;
-
         try {
             const storedUserId = getStoredUserId();
             await deleteNote(storedUserId, noteId);
@@ -109,7 +110,6 @@ export const useNotes = (project, documentType) => {
             toast.success('공유 링크 복사됨 (Ctrl+V로 붙여넣기)');
         }catch (e){
             toast.error(`공유 노트 생성에 실패하였습니다. ${e}`);
-
         }
     };
 
@@ -120,6 +120,17 @@ export const useNotes = (project, documentType) => {
             await fetchNotes();
         }catch (e){
             toast.error(`공유 노트 생성에 실패하였습니다. ${e}`);
+        }
+    }
+
+    const deleteShareNote = async (shareId) => {
+        try {
+            if (!window.confirm('이 공유 노트를 삭제하시겠습니까?')) return;
+            await deleteShareNoteById(shareId);
+            setNotes(notes.filter(n => n.shareId !== shareId));
+            toast.success('공유 링크가 성공적으로 삭제되었습니다.');
+        } catch (e) {
+            toast.error(`공유 링크 삭제에 실패했습니다: ${e.message || e}`);
         }
     }
 
@@ -136,6 +147,7 @@ export const useNotes = (project, documentType) => {
         shareNote,
         updateNoteTags,
         refetch: fetchNotesByType,
-        updateTags
+        updateTags,
+        deleteShareNote
     };
 };

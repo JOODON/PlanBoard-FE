@@ -1,10 +1,11 @@
 // components/SlashCommandsList.js
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react';
 import './SlashCommandsList.css';
 
 const SlashCommandsList = forwardRef((props, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const { items, command } = props;
+    const itemRefs = useRef([]);
 
     // 키보드 이벤트 처리
     const onKeyDown = ({ event }) => {
@@ -26,6 +27,16 @@ const SlashCommandsList = forwardRef((props, ref) => {
         return false;
     };
 
+    // selectedIndex가 변경될 때마다 스크롤
+    useEffect(() => {
+        if (itemRefs.current[selectedIndex]) {
+            itemRefs.current[selectedIndex].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+            });
+        }
+    }, [selectedIndex]);
+
     useEffect(() => setSelectedIndex(0), [items]);
 
     const selectItem = (index) => {
@@ -44,6 +55,7 @@ const SlashCommandsList = forwardRef((props, ref) => {
             {items.length ? (
                 items.map((item, index) => (
                     <button
+                        ref={(el) => (itemRefs.current[index] = el)}
                         className={`slash-command-item ${index === selectedIndex ? 'selected' : ''}`}
                         key={index}
                         onClick={() => selectItem(index)}

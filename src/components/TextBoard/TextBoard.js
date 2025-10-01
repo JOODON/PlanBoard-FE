@@ -18,6 +18,7 @@ import { useTextEditor } from './NoteTextEditor/useEditor.js';
 import { copyNoteToClipboard } from '../../Util/NoteUtils.js';
 import TagManagementModal from './NoteMenuDropdown/TagManagementModal'
 import './CursorAnimation.css'
+import ImageOCRUpload from './Ocr/ImageOCRUpload';
 
 function TextBoard({ project }) {
     // 상태 관리
@@ -34,6 +35,8 @@ function TextBoard({ project }) {
     const [isSharing, setIsSharing] = useState(false);
     const [userColors, setUserColors] = useState({}); // 사용자별 색상 저장
 
+    const [showOCRUpload, setShowOCRUpload] = useState(null)
+
     // 디바운스를 위한 타이머 ref 추가
     const updateTimerRef = useRef(null);
     const lastUpdateRef = useRef(''); // 마지막 업데이트 내용 추적
@@ -49,16 +52,21 @@ function TextBoard({ project }) {
         updateExistingNote,
         deleteNoteById,
         shareNote,
-        updateTags
+        updateTags,
+        deleteShareNote
     } = useNotes(project, documentType);
+
+    const ocrHandler = async () => {
+        setShowOCRUpload(prev => !prev);
+    }
 
     const {
         editor,
-        editorContent,
-        setContent,
         clearContent,
         focusEditor
-    } = useTextEditor();
+    } = useTextEditor({
+        onOCRTrigger: ocrHandler
+    });
 
     const handleDocumentTypeChange = (type) => {
         setDocumentType(type);
@@ -347,6 +355,49 @@ function TextBoard({ project }) {
                     return;
                 }
 
+                // if (data.type === 'update-note') {
+                //     console.log("2. [DEBUG] update-note 데이터 수신");
+                //
+                //     // 자신이 보낸 업데이트는 무시
+                //     if (data.userId === getStoredUserId()) return;
+                //
+                //     // ref에서 최신 editingNote 값 가져오기
+                //     const currentEditingNote = editingNoteRef.current;
+                //
+                //     console.log('update-note 처리:', {
+                //         receivedNoteId: data.noteId,
+                //         currentEditingNoteId: currentEditingNote?.id,
+                //         hasEditor: !!editor,
+                //         currentEditingNote: currentEditingNote
+                //     });
+                //
+                //     if (currentEditingNote && currentEditingNote.id === data.noteId && editor) {
+                //         // 내용 업데이트
+                //         editor.commands.setContent(data.raw);
+                //
+                //         // state와 ref 모두 업데이트
+                //         const updatedNote = {
+                //             ...currentEditingNote,
+                //             raw: data.raw,
+                //             content: data.raw
+                //         };
+                //
+                //         setEditingNote(updatedNote);
+                //         editingNoteRef.current = updatedNote;
+                //
+                //         // 마지막 업데이트 내용 갱신
+                //         lastUpdateRef.current = data.raw;
+                //
+                //         console.log('다른 사용자의 노트 업데이트 받음');
+                //     } else {
+                //         console.warn('update-note 처리 실패:', {
+                //             hasCurrentEditingNote: !!currentEditingNote,
+                //             noteIdMatch: currentEditingNote?.id === data.noteId,
+                //             hasEditor: !!editor
+                //         });
+                //     }
+                //     return;
+                // }
                 if (data.type === 'update-note') {
                     console.log("2. [DEBUG] update-note 데이터 수신");
 
@@ -364,8 +415,23 @@ function TextBoard({ project }) {
                     });
 
                     if (currentEditingNote && currentEditingNote.id === data.noteId && editor) {
+                        // 🔥 현재 커서 위치 저장
+                        const currentSelection = editor.state.selection;
+                        const { from, to } = currentSelection;
+
+                        console.log('커서 위치 저장:', { from, to });
+
                         // 내용 업데이트
                         editor.commands.setContent(data.raw);
+
+                        // 🔥 커서 위치 복원 (문서 길이를 넘지 않도록 체크)
+                        const newDocSize = editor.state.doc.content.size;
+                        const safeFrom = Math.min(from, newDocSize);
+                        const safeTo = Math.min(to, newDocSize);
+
+                        editor.commands.setTextSelection({ from: safeFrom, to: safeTo });
+
+                        console.log('커서 위치 복원:', { safeFrom, safeTo, newDocSize });
 
                         // state와 ref 모두 업데이트
                         const updatedNote = {
@@ -380,7 +446,7 @@ function TextBoard({ project }) {
                         // 마지막 업데이트 내용 갱신
                         lastUpdateRef.current = data.raw;
 
-                        console.log('다른 사용자의 노트 업데이트 받음');
+                        console.log('다른 사용자의 노트 업데이트 받음 - 커서 위치 유지');
                     } else {
                         console.warn('update-note 처리 실패:', {
                             hasCurrentEditingNote: !!currentEditingNote,
@@ -587,6 +653,24 @@ function TextBoard({ project }) {
         }
     };
 
+    const handleOCRComplete = (extractedText) => {
+        setShowOCRUpload(false);
+
+        if (!editor) {
+            toast.error('에디터를 찾을 수 없습니다.');
+            return;
+        }
+
+        editor
+            .chain()
+            .focus('end')  // 문서 끝으로 이동
+            .insertContent('<p></p>')  // 빈 줄 추가
+            .insertContent(extractedText)  // OCR 텍스트 삽입
+            .run();
+
+        toast.success('텍스트가 추출되어 노트에 삽입되었습니다!');
+    };
+
     // 메뉴 액션 처리 함수
     const handleMenuAction = async (action, noteId, noteData) => {
         switch (action) {
@@ -607,10 +691,14 @@ function TextBoard({ project }) {
                 // TODO: 다운로드 기능 구현
                 break;
             case 'delete':
-                if (window.confirm('정말로 이 노트를 삭제하시겠습니까?')) {
-                    await deleteNoteById(noteId);
+                await deleteNoteById(noteId);
+                break;
+            case "delete-shared":
+                if (noteData.shareId){
+                    await deleteShareNote(noteData.shareId)
                 }
                 break;
+            // 여기서부터는 Share 기능
         }
     };
 
@@ -676,6 +764,14 @@ function TextBoard({ project }) {
                     />
                 )}
 
+                {/*이미지 TExt 변환 모달*/}
+                {showOCRUpload && (
+                    <ImageOCRUpload
+                        onOCRComplete={handleOCRComplete}
+                        onClose={() => setShowOCRUpload(false)}
+                        editor={editor}
+                    />
+                )}
                 {/* 플로팅 채팅 */}
                 <FloatingChatUI project={project} />
             </div>

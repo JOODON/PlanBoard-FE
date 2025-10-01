@@ -4,12 +4,13 @@ import TextBoard from './components/TextBoard/TextBoard';
 import Calendar from './components/Calendar/Calendar';
 import Header from './components/Header/Header';
 import {createUser, getUser} from './api/UserApi';
-import {createProject, getProjectsByUser} from './api/ProjectApi';
+import {getProjectsByUser} from './api/ProjectApi';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './toast.css';
 import './index.css';
 import {getStoredUserId} from "./Util/UserInfo";
+import { Menu, X } from 'lucide-react';
 
 function App() {
     const [user, setUser] = useState(null);
@@ -23,8 +24,10 @@ function App() {
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
 
-    // 새로 추가: 현재 뷰 상태 (calendar 또는 memo)
     const [currentView, setCurrentView] = useState('calendar');
+
+    // 모바일 사이드바 상태
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     useEffect(() => {
         const initUser = async () => {
@@ -85,17 +88,55 @@ function App() {
 
     if (!user && !showUserModal) return null;
 
-
     return (
         <div style={{ display: 'flex', height: '100vh', position: 'relative' }}>
-            {/* Sidebar */}
+            {/* 모바일 햄버거 메뉴 버튼 */}
+            {user && (
+                <button
+                    className="mobile-menu-btn"
+                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                    style={{
+                        position: 'fixed',
+                        top: '20px',
+                        left: '20px',
+                        zIndex: 998,
+                        background: '#0066ff',
+                        color: 'white',
+                        border: 'none',
+                        width: '44px',
+                        height: '44px',
+                        borderRadius: '12px',
+                        display: 'none',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                    }}
+                >
+                    {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            )}
+
+            {/* 사이드바 오버레이 */}
+            {isSidebarOpen && (
+                <div
+                    className="sidebar-overlay active"
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+            )}
+
+            {/* Sidebar - 기존 코드 */}
             {user && (
                 <Sidebar
+                    className={isSidebarOpen ? 'open' : ''}
                     user={user}
                     showUserInfo={showUserInfo}
                     setShowUserInfo={setShowUserInfo}
                     projects={projects}
-                    setSelectedProject={setSelectedProject}
+                    setSelectedProject={(project) => {
+                        setSelectedProject(project);
+                        setIsSidebarOpen(false);
+                    }}
                     onEditProject={(id, data) => {
                         setProjects(prev =>
                             prev.map(p => (p.id === id ? { ...p, ...data } : p))
@@ -124,7 +165,15 @@ function App() {
                 />
 
                 {/* Content Area */}
-                <div style={{ flex: 1, padding: '20px', background: '#f8f9fa' }}>
+                <div style={{
+                    flex: 1,
+                    padding: '20px',
+                    background: '#f8f9fa',
+                    overflow: 'auto',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    minWidth: 0  // 이게 중요! flex item이 줄어들 수 있게 함
+                }}>
                     {selectedProject && (
                         <>
                             {currentView === 'calendar' ? (
@@ -155,15 +204,17 @@ function App() {
                             새로운 계획을 만들어 보거나, 기존 계획을 불러오세요
                         </div>
                     )}
-                </div>
             </div>
+        </div>
 
-            {/* User Modal */}
-            {showUserModal && (
-                <div style={{
-                    position: 'absolute',
-                    top: 0, left: 0,
-                    width: '100%',
+    {/* User Modal */
+    }
+    {
+        showUserModal && (
+            <div style={{
+                position: 'absolute',
+                top: 0, left: 0,
+                width: '100%',
                     height: '100%',
                     background: 'rgba(0,0,0,0.5)',
                     display: 'flex',
@@ -231,6 +282,15 @@ function App() {
                 toastClassName="my-toast"
                 bodyClassName="my-toast-body"
             />
+
+            {/* 모바일용 CSS 추가 */}
+            <style>{`
+                @media (max-width: 768px) {
+                    .mobile-menu-btn {
+                        display: flex !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 }

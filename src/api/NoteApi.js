@@ -83,7 +83,6 @@ export const addShareNote = async (noteId, projectId, sharedUserRole) => {
 
 export const updateNoteTags = async (noteId, newTags) => {
     const storedUserId = getStoredUserId();
-    console.log('Updating tags:', noteId, newTags, 'userId:', storedUserId);
 
     const response = await API.put(`/api/notes/${noteId}/tags`,
         { tags: newTags },
@@ -97,3 +96,11 @@ export const updateNoteTags = async (noteId, newTags) => {
 
     return response.data.data;
 }
+
+export const deleteShareNoteById = async (shareId) => {
+    const storedUserId = getStoredUserId();
+    const response = await API.delete(`/api/notes/share/${shareId}`, {
+        headers: { 'userId': storedUserId }
+    });
+    return response.data.data;
+};

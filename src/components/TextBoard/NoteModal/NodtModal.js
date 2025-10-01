@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { EditorContent } from '@tiptap/react';
 import ParticipantsDisplay from './ParticipantsDisplay'
 import './ParticipantsDisplay.css'
@@ -16,6 +16,28 @@ const NoteModal = ({
                        onEditorUpdate,
                        onPasteContent
                    }) => {
+
+    const [showTableControls, setShowTableControls] = useState(false);
+
+    // 테이블 선택 감지
+    useEffect(() => {
+        if (!editor || !isOpen) return;
+
+        const handleSelectionUpdate = () => {
+            const { state } = editor;
+            const { selection } = state;
+            const isInTable = selection.$anchor.node(-1)?.type.name === 'table';
+            setShowTableControls(isInTable);
+        };
+
+        editor.on('selectionUpdate', handleSelectionUpdate);
+        editor.on('transaction', handleSelectionUpdate);
+
+        return () => {
+            editor.off('selectionUpdate', handleSelectionUpdate);
+            editor.off('transaction', handleSelectionUpdate);
+        };
+    }, [editor, isOpen]);
 
     // 에디터 이벤트 리스너 등록
     useEffect(() => {
@@ -101,6 +123,55 @@ const NoteModal = ({
                 </div>
 
                 <div className="modal-editor-wrapper">
+                    {showTableControls && (
+                        <div className="table-controls">
+                            <button
+                                onClick={() => editor.chain().focus().addColumnBefore().run()}
+                                title="왼쪽에 열 추가"
+                            >
+                                ← 열
+                            </button>
+                            <button
+                                onClick={() => editor.chain().focus().addColumnAfter().run()}
+                                title="오른쪽에 열 추가"
+                            >
+                                열 →
+                            </button>
+                            <button
+                                onClick={() => editor.chain().focus().addRowBefore().run()}
+                                title="위에 행 추가"
+                            >
+                                ↑ 행
+                            </button>
+                            <button
+                                onClick={() => editor.chain().focus().addRowAfter().run()}
+                                title="아래에 행 추가"
+                            >
+                                행 ↓
+                            </button>
+                            <button
+                                onClick={() => editor.chain().focus().deleteColumn().run()}
+                                title="열 삭제"
+                                className="delete-btn"
+                            >
+                                열 삭제
+                            </button>
+                            <button
+                                onClick={() => editor.chain().focus().deleteRow().run()}
+                                title="행 삭제"
+                                className="delete-btn"
+                            >
+                                행 삭제
+                            </button>
+                            <button
+                                onClick={() => editor.chain().focus().deleteTable().run()}
+                                title="테이블 삭제"
+                                className="delete-btn danger"
+                            >
+                                테이블 삭제
+                            </button>
+                        </div>
+                    )}
                     <EditorContent editor={editor} className="modal-editor" />
                 </div>
 

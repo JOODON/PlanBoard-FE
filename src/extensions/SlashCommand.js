@@ -75,6 +75,39 @@ const SlashCommand = Extension.create({
                             icon: 'H3',
                         },
                         {
+                            title: 'Image To Text',
+                            description: '이미지로 본문 작성',
+                            searchTerms: ['image', 'img', '이미지', '사진', 'photo', 'picture', 'text', 'convert', '변환'],
+                            command: ({ editor, range }) => {
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .deleteRange(range)
+                                    .run();
+
+                                const ocrHandler = editor.storage.ocrHandler;
+
+                                if (ocrHandler && typeof ocrHandler === 'function') {
+                                    ocrHandler();
+                                }
+                            },
+                            icon: 'IMG',
+                        },
+                        {
+                            title: 'Insert Table',
+                            description: '표 삽입',
+                            searchTerms: ['table', '표', '테이블', 'grid'],
+                            command: ({ editor, range }) => {
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .deleteRange(range)
+                                    .insertTable({ rows: 3, cols: 3, withHeaderRow: true }) // 3x3으로 변경
+                                    .run();
+                            },
+                            icon: 'TABLE',
+                        },
+                        {
                             title: 'Bullet List',
                             description: '불릿 리스트',
                             searchTerms: ['ul', 'list', '리스트', '목록', 'bullet'],

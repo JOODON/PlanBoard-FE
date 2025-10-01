@@ -1,6 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
-import {Share2, Edit3, Copy, Trash2, Download, Tag} from 'lucide-react';
+import {Share2, Edit3, Copy, Trash2, Download, Tag, Image} from 'lucide-react';
 
 const NoteMenuDropdown = ({note, onClose, onMenuClick, buttonRef , documentType}) => {
     const [position, setPosition] = React.useState({ top: 0, right: 0 });

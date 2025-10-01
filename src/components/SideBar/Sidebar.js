@@ -6,6 +6,7 @@ import './Sidebar.css';
 import {getStoredUserId, removeStoredUserId} from "../../Util/UserInfo";
 
 const Sidebar = ({
+                     className,
                      user,
                      showUserInfo,
                      setShowUserInfo,
@@ -124,7 +125,7 @@ const Sidebar = ({
 
     }
     return (
-        <div className="sidebar">
+        <div className={`sidebar ${className || ''}`}>
             {/* 사용자 프로필 섹션 */}
             {showCreateModal && (
                 <div className="modal-backdrop" onClick={closeModal}>
@@ -371,7 +372,7 @@ const Sidebar = ({
                     Calendar & Memo App
                 </div>
                 <div className="footer-version">
-                    Version 2.1
+                    Version 2.2
                 </div>
             </div>
         </div>

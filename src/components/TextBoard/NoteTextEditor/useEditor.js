@@ -6,8 +6,9 @@ import Link from '@tiptap/extension-link';
 import TaskList from '@tiptap/extension-task-list';
 import TaskItem from '@tiptap/extension-task-item';
 import SlashCommand from '../../../extensions/SlashCommand';
+import { Table, TableRow, TableCell, TableHeader } from '@tiptap/extension-table';
 
-export const useTextEditor = () => {
+export const useTextEditor = ({ onOCRTrigger } = {}) => {
     const [editorContent, setEditorContent] = useState('');
 
     const editor = useEditor({
@@ -27,6 +28,12 @@ export const useTextEditor = () => {
             TaskItem.configure({
                 nested: true,
             }),
+            Table.configure({
+                resizable: true,
+            }),
+            TableRow,
+            TableCell,
+            TableHeader,
             SlashCommand,
         ],
         content: editorContent,
@@ -39,6 +46,12 @@ export const useTextEditor = () => {
             },
         },
     });
+
+    useEffect(() => {
+        if (editor) {
+            editor.storage.ocrHandler = onOCRTrigger;
+        }
+    }, [editor, onOCRTrigger]);
 
     useEffect(() => {
         if (editor && editor.getHTML() !== editorContent) {
