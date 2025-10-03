@@ -3,23 +3,25 @@ import Sidebar from './components/SideBar/Sidebar';
 import TextBoard from './components/TextBoard/TextBoard';
 import Calendar from './components/Calendar/Calendar';
 import Header from './components/Header/Header';
-import {createUser, getUser} from './api/UserApi';
+
+import { getUser } from './api/UserApi';
+import { signUp } from './api/AuthApi';
 import {getProjectsByUser} from './api/ProjectApi';
 import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import './toast.css';
 import './index.css';
+
+import  SignupFlow  from "./components/Auth/SignupFlow"
 import {getStoredUserId} from "./Util/UserInfo";
+
 import { Menu, X } from 'lucide-react';
 
 function App() {
     const [user, setUser] = useState(null);
     const [showUserInfo, setShowUserInfo] = useState(false);
     const [showUserModal, setShowUserModal] = useState(true);
-
-    const [nameInput, setNameInput] = useState('');
-    const [phoneInput, setPhoneInput] = useState('');
-    const [birthInput, setBirthInput] = useState('');
 
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
@@ -46,29 +48,6 @@ function App() {
         };
         initUser();
     }, []);
-
-    const handleUserSubmit = async () => {
-        if (!nameInput || !phoneInput || !birthInput) {
-            toast.warn("모든 정보를 입력해주세요! ⚠️", {
-                toastClassName: "my-warn-toast",
-                bodyClassName: "my-toast-body",
-            });
-            return;
-        }
-
-        const newUser = { name: nameInput, phone: phoneInput, birth: birthInput };
-
-        try {
-            const savedUser = await createUser(newUser);
-            localStorage.setItem("userId", savedUser.id);
-            setUser(savedUser);
-            setShowUserModal(false);
-            toast.success("사용자 인증 완료! 🎉");
-        } catch (error) {
-            console.error("사용자 저장 실패:", error);
-            toast.error(error.message || "서버와 통신 중 오류가 발생했습니다!");
-        }
-    };
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -207,66 +186,41 @@ function App() {
             </div>
         </div>
 
-    {/* User Modal */
-    }
-    {
-        showUserModal && (
-            <div style={{
-                position: 'absolute',
-                top: 0, left: 0,
-                width: '100%',
-                    height: '100%',
-                    background: 'rgba(0,0,0,0.5)',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    zIndex: 1000
-                }}>
-                    <div className="user-info-form">
-                        <div className="form-header">
-                            <h3 className="form-title">사용자 정보 입력</h3>
-                            <span className="form-subtitle">기본 정보를 입력해주세요</span>
-                        </div>
+            {/* User Modal */}
 
-                        <div className="form-fields">
-                            <div className="input-group">
-                                <label className="input-label">이름</label>
-                                <input
-                                    type="text"
-                                    placeholder="이름을 입력해주세요"
-                                    value={nameInput}
-                                    onChange={e => setNameInput(e.target.value)}
-                                    className="form-input"
-                                />
-                            </div>
+            {showUserModal && (
+                <SignupFlow
+                    // 기존 회원일 때
+                    // onLoginNeeded={(user) => {
+                    //     console.log('로그인 필요:', user);
+                    //     toast.info('이미 가입된 회원입니다. 로그인해주세요!');
+                    //     setShowUserModal(false);
+                    //     // TODO: 로그인 모달 띄우기
+                    // }}
 
-                            <div className="input-group">
-                                <label className="input-label">전화번호</label>
-                                <input
-                                    type="text"
-                                    placeholder="전화번호를 입력해주세요"
-                                    value={phoneInput}
-                                    onChange={e => setPhoneInput(e.target.value)}
-                                    className="form-input"
-                                />
-                            </div>
+                    // 신규 회원 - 회원가입 완료
+                    onComplete={async (data) => {
+                        console.log('회원가입 데이터:', data);
+                        // data = { user: {id, name, ...}, email, password }
 
-                            <div className="input-group">
-                                <label className="input-label">생년월일</label>
-                                <input
-                                    type="date"
-                                    value={birthInput}
-                                    onChange={e => setBirthInput(e.target.value)}
-                                    className="form-input"
-                                />
-                            </div>
-                        </div>
+                        try {
+                            await signUp(
+                                data.user,
+                                {
+                                    email: data.email,
+                                    password: data.password
+                                }
+                            );
 
-                        <button onClick={handleUserSubmit} className="submit-btn">
-                            <span>확인</span>
-                        </button>
-                    </div>
-                </div>
+                            localStorage.setItem('userId', data.user.id);
+                            setUser(data.user);
+                            setShowUserModal(false);
+                            toast.success('회원가입 완료! 🎉');
+                        } catch (error) {
+                            toast.error(`회원가입 실패  : ${error.message}`);
+                        }
+                    }}
+                />
             )}
 
             {/* Toast 전역 설정 */}
