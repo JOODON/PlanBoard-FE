@@ -37,8 +37,7 @@ const SignupFlow = ({ onComplete, onLoginNeeded }) => {
 
             if (user.isAuthExist) {
                 // 기존 회원 → Step 3 로그인으로
-                setDirection('forward');
-                setTimeout(() => setStep(3), 50);
+                loginPageRedirect()
             } else {
                 // 신규 회원 → Step 2 회원가입으로
                 setDirection('forward');
@@ -49,6 +48,11 @@ const SignupFlow = ({ onComplete, onLoginNeeded }) => {
             alert('서버와 통신 중 오류가 발생했습니다');
         }
     };
+
+    const loginPageRedirect = () => {
+        setDirection('forward');
+        setTimeout(() => setStep(3), 50);
+    }
 
     const handleAuthInfoSubmit = () => {
         if (!authInfo.email || !authInfo.password) {
@@ -105,11 +109,14 @@ const SignupFlow = ({ onComplete, onLoginNeeded }) => {
                     <div className="user-info-form">
                         <div className="form-header">
                             <h3 className="form-title">사용자 정보 입력</h3>
-                            <span className="form-subtitle">기본 정보를 입력해주세요</span>
+                            <div className="form-sub">
+                                <span className="form-subtitle">기본 정보를 입력해주세요</span>
+                                <span className="login-redirect-form" onClick={loginPageRedirect}>이미 가입하셨나요? 로그인</span>
+                            </div>
                         </div>
 
                         <div className="form-fields">
-                            <div className="input-group">
+                        <div className="input-group">
                                 <label className="input-label">이름</label>
                                 <input
                                     type="text"
@@ -210,7 +217,7 @@ const SignupFlow = ({ onComplete, onLoginNeeded }) => {
                                 ← 이전
                             </button>
                             <h3 className="form-title">로그인</h3>
-                            <span className="form-subtitle">이미 가입된 회원이시네요!</span>
+                            <span className="form-subtitle">이미 가입된 회원이시네요</span>
                         </div>
 
                         <div className="form-fields">

@@ -6,3 +6,7 @@ export function getStoredUserId() {
 export function removeStoredUserId() {
     return localStorage.removeItem("userId");
 }
+
+export function getAccessToken() {
+    return localStorage.getItem("accessToken");
+}

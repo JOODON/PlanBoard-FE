@@ -23,3 +23,39 @@ export const signUp = async (user, auth) => {
         throw new Error(error.response?.data?.message || error.message || "서버 오류");
     }
 };
+
+export const login = async (auth) => {
+    try {
+
+        const response = await API.post("/api/auth/login", {
+            email: auth.email,
+            password: auth.password
+        });
+
+        if (response.data.code !== 200) {
+            throw new Error(response.data.message || "사용자 로그인 실패");
+        }
+
+        const accessToken = response.data.data.accessToken
+
+        if (accessToken) {
+
+            setAuthToken(accessToken);
+            localStorage.setItem('accessToken', accessToken);
+
+        }
+
+        return response.data.data;
+
+    } catch (error) {
+        throw new Error(error.response?.data?.message || error.message || "서버 오류");
+    }
+};
+
+export const setAuthToken = (token) => {
+    if (token) {
+        API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+        delete API.defaults.headers.common['Authorization'];
+    }
+};

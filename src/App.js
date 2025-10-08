@@ -5,7 +5,7 @@ import Calendar from './components/Calendar/Calendar';
 import Header from './components/Header/Header';
 
 import { getUser } from './api/UserApi';
-import { signUp } from './api/AuthApi';
+import { signUp , login, setAuthToken} from './api/AuthApi';
 import {getProjectsByUser} from './api/ProjectApi';
 import { ToastContainer, toast } from "react-toastify";
 
@@ -14,7 +14,7 @@ import './toast.css';
 import './index.css';
 
 import  SignupFlow  from "./components/Auth/SignupFlow"
-import {getStoredUserId} from "./Util/UserInfo";
+import {getAccessToken, getStoredUserId} from "./Util/UserInfo";
 
 import { Menu, X } from 'lucide-react';
 
@@ -33,7 +33,13 @@ function App() {
 
     useEffect(() => {
         const initUser = async () => {
+            const storedToken = getAccessToken();
             const storedUserId = getStoredUserId();
+
+            if (storedToken) {
+                setAuthToken(storedToken);
+            }
+
             if (storedUserId) {
                 try {
                     const response = await getUser(storedUserId);
@@ -41,8 +47,10 @@ function App() {
                     setShowUserModal(false);
                 } catch (error) {
                     console.error("유저 조회 실패:", error);
-                    toast.error("사용자 정보를 불러오지 못했습니다.");
                     localStorage.removeItem("userId");
+                    localStorage.removeItem("accessToken");
+                    setAuthToken(null);
+                    toast.error("사용자 정보를 불러오지 못했습니다.");
                 }
             }
         };
@@ -191,33 +199,35 @@ function App() {
             {showUserModal && (
                 <SignupFlow
                     // 기존 회원일 때
-                    // onLoginNeeded={(user) => {
-                    //     console.log('로그인 필요:', user);
-                    //     toast.info('이미 가입된 회원입니다. 로그인해주세요!');
-                    //     setShowUserModal(false);
-                    //     // TODO: 로그인 모달 띄우기
-                    // }}
+                    onLoginNeeded={async (data) => {
+                        try {
+                            const result = await login(data.auth);
+                            const userInfo = await getUser(result.userId);
+
+                            localStorage.setItem('userId', result.userId);
+                            setUser(userInfo);
+                            setShowUserModal(false);
+
+                            toast.success('로그인 성공!');
+                        }catch (error) {
+                            toast.error(`로그인 실패: ${error.message}`);
+                        }
+                    }}
 
                     // 신규 회원 - 회원가입 완료
                     onComplete={async (data) => {
-                        console.log('회원가입 데이터:', data);
-                        // data = { user: {id, name, ...}, email, password }
 
                         try {
-                            await signUp(
-                                data.user,
-                                {
-                                    email: data.email,
-                                    password: data.password
-                                }
-                            );
-
-                            localStorage.setItem('userId', data.user.id);
-                            setUser(data.user);
-                            setShowUserModal(false);
+                            // 1. 회원가입
+                            await signUp(data.user, data.auth);
                             toast.success('회원가입 완료! 🎉');
+
+                            // 2. 자동 로그인
+                            await login(data.auth);
+                            // 3. 모달 닫기
+                            setShowUserModal(false);
                         } catch (error) {
-                            toast.error(`회원가입 실패  : ${error.message}`);
+                            toast.error(`회원가입 실패: ${error.message}`);
                         }
                     }}
                 />

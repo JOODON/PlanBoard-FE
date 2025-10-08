@@ -2,6 +2,8 @@ import API from "./api";
 import {getStoredUserId} from "../Util/UserInfo";
 
 export const getProjectsByUser = async (userId) => {
+    console.log(API.defaults.headers.common);
+
     const response = await API.get(`/api/projects`, {
         headers: {
             'userId': userId

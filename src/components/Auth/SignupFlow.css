@@ -92,6 +92,39 @@
     flex-direction: column;
     gap: 20px;
 }
+.form-sub{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+/* CSS */
+.login-redirect-form {
+    font-size: 14px;
+    color: #2563eb;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Hover */
+.login-redirect-form:hover {
+    color: #1f2937;
+
+    transform: translateY(-1px);
+}
+
+
+/* Focus (접근성) */
+.login-redirect-form:focus {
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.12);
+    border-radius: 6px;
+}
+
+/* Active (터치) */
+.login-redirect-form:active {
+    transform: translateY(0);
+    opacity: 0.95;
+}
 
 .input-group {
     display: flex;
